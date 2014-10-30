@@ -1,4 +1,5 @@
 window.variant = document.location.search.slice(1);
+window.variant = 'pseudoclassical'
 
 define([
   'spec/verifyClass.js',
@@ -22,19 +23,19 @@ define([
     var instantiator = variant === 'pseudoclassical' ? Stack : makeStack;
     var prototypeOfInstances = variant === 'prototypal' && stackMethods;
 
-    beforeEach(function(){
+/*    beforeEach(function(){
       if(variant === 'pseudoclassical'){
         stack = new instantiator();
       } else {
         stack = instantiator();
       }
-    });
-
+      });
+*/
     describe('stack shared behavior', function(){
 
-      verifyClass(instantiator).followsPattern(variant, {}, prototypeOfInstances);
+    //  verifyClass(instantiator).followsPattern(variant, {}, prototypeOfInstances);
 
-      it('reports a size of zero for a new stack', function() {
+    /*  it('reports a size of zero for a new stack', function() {
         expect(stack.size()).to.equal(0);
       });
 
@@ -68,9 +69,18 @@ define([
         stack.push('b');
         expect(stack.pop()).to.equal('b');
       });
-
+*/
+      it('is so efficient', function(){
+        for (var i = 0; i < 1000000; i++){
+          if(variant === 'pseudoclassical'){
+            stack = new instantiator();
+          } else {
+            stack = instantiator();
+          }
+        }
+      });
     });
-
+/*
     describe('stack-specific behavior', function(){
       it('removes the most recently added of two items', function() {
         stack.push('a');
@@ -86,14 +96,14 @@ define([
         expect(stack.pop()).to.equal('b');
       });
     });
-
+*/
   });
 
   describe("queue", function() {
     var queue;
     var instantiator = variant === 'pseudoclassical' ? Queue : makeQueue;
     var prototypeOfInstances = variant === 'prototypal' && queueMethods;
-
+/*
     beforeEach(function(){
       if(variant === 'pseudoclassical'){
         queue = new instantiator();
@@ -101,11 +111,22 @@ define([
         queue = instantiator();
       }
     });
-
+*/
     describe('queue shared behavior', function(){
 
-      verifyClass(instantiator).followsPattern(variant, {}, prototypeOfInstances);
+      it('is so efficient', function(){
+        for (var i = 0; i < 1000000; i++){
+          if(variant === 'pseudoclassical'){
+            queue = new instantiator();
+          } else {
+            queue = instantiator();
+          }
+        }
+      });
 
+
+//      verifyClass(instantiator).followsPattern(variant, {}, prototypeOfInstances);
+/*
       it('reports a size of zero for a new queue', function() {
         expect(queue.size()).to.equal(0);
       });
@@ -140,9 +161,9 @@ define([
         queue.enqueue('b');
         expect(queue.dequeue()).to.equal('b');
       });
-
+*/
     });
-
+/*
     describe('queue-specific behavior', function(){
       it('removes the least recently added of two items', function() {
         queue.enqueue('a');
@@ -158,7 +179,7 @@ define([
         expect(queue.dequeue()).to.equal('b');
       });
     });
-
+*/
   });
 
 
