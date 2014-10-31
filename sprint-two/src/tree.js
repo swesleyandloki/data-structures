@@ -20,7 +20,6 @@ treeMethods.contains = function(target){
   if( !hasTarget && this.children){
     for( var i = 0 ; i < this.children.length; i++){
       if(!hasTarget){
-        console.log(this.children[i]);
         hasTarget = this.children[i].contains(target);
       }
     }
