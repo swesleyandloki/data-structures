@@ -1,4 +1,4 @@
-var HashTable = function(){
+ var HashTable = function(){
   this._limit = 2;
   this._storage = makeLimitedArray(this._limit);
   this._size = 0;

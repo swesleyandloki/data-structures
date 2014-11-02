@@ -8,6 +8,27 @@ var makeBinarySearchTree = function(value){
 
 var binarySearchTreeMethods = {};
 
+binarySearchTreeMethods.breadthFirstLog = function(callBack,toBePassed){
+  var that = this;
+  var nextToBePassed = [];
+  toBePassed = toBePassed || [that];
+  for (i=0; i<toBePassed.length; i++){
+    if (toBePassed[i] !== undefined){
+      callBack(toBePassed[i].value);
+      if(toBePassed[i].left){
+      nextToBePassed.push(toBePassed[i].left);
+      }
+      if(toBePassed[i].right){
+        nextToBePassed.push(toBePassed[i].right);
+      }
+    };
+  };
+  if(nextToBePassed.length>0){
+    this.breadthFirstLog(callBack,nextToBePassed);
+  }
+};
+
+
 binarySearchTreeMethods.insert = function(value){
 
   var pickASide;
@@ -42,8 +63,29 @@ binarySearchTreeMethods.depthFirstLog = function(callBack){
   if(this.right!==undefined){
     this.right.depthFirstLog(callBack);
   }
-
 };
+
+
+binarySearchTreeMethods.rebalance =function (){
+  var treeValues = [];
+  this.depthFirstLog(function(value){
+    treeValues.push(value);
+  });
+  treeValues.sort();
+  this.left = undefined;
+  this.right = undefined;
+  this.value = treeValues[Math.floor(treeValues.length/2)];
+  var ornament;
+  while(treeValues.length>0){
+    ornament = treeValues.splice(Math.round(treeValues.length/4), 1);
+    this.insert(ornament);
+    if(treeValues.length>0){
+      ornament = treeValues.splice(Math.round(treeValues.length*3/4), 1);
+      this.insert(ornament);
+    }
+  }
+}
+
 
 /*
  * Complexity: What is the time complexity of the above functions?
