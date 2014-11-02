@@ -5,10 +5,13 @@ describe('tree', function() {
     tree = makeTree();
   });
 
-  it('should have methods named "addChild" and "contains", and a property named "value"', function() {
+  it('should have methods named "removeFromParent", "traverse", "addChild" and "contains", and a property named "value", and a property named "parent"', function() {
     expect(tree.addChild).to.be.a("function");
     expect(tree.contains).to.be.a("function");
+    expect(tree.traverse).to.be.a("function");
+    expect(tree.removeFromParent).to.be.a("function");
     expect(tree.hasOwnProperty("value")).to.equal(true);
+    expect(tree.hasOwnProperty("parent")).to.equal(true);
   });
 
   it('should add children to the tree', function() {
@@ -32,6 +35,15 @@ describe('tree', function() {
     expect(tree.children[0].children[0].value).to.equal(6);
   });
 
+  it('should be able to remove child tree from parent', function() {
+    tree.addChild(5);
+    tree.addChild(6);
+    var testChild = tree.children[0].removeFromParent();
+    expect(tree.children[0].value).to.equal(6);
+    expect(tree.children.length).to.equal(1);
+    expect(testChild.parent).to.equal(null);
+  });
+
   it('should correctly detect nested children', function(){
     tree.addChild(5);
     tree.addChild(6);
@@ -39,6 +51,16 @@ describe('tree', function() {
     tree.children[1].addChild(8);
     expect(tree.contains(7)).to.equal(true);
     expect(tree.contains(8)).to.equal(true);
+  });
+
+  it('should run callback for each value in tree', function(){
+    var array = [];
+    var func = function(value){ array.push(value); };
+    tree.addChild(2);
+    tree.addChild(3);
+    tree.traverse(func);
+    console.log(array);
+    expect(array).to.eql([undefined,2,3]);
   });
 
 });

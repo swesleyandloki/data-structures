@@ -65,26 +65,34 @@ binarySearchTreeMethods.depthFirstLog = function(callBack){
   }
 };
 
-
-binarySearchTreeMethods.rebalance =function (){
+binarySearchTreeMethods._getAllValues = function () {
   var treeValues = [];
   this.depthFirstLog(function(value){
     treeValues.push(value);
   });
-  treeValues.sort();
+  //Sort
+  return treeValues.sort(function (a, b) { return a - b; } );
+};
+
+
+binarySearchTreeMethods.rebalance =function (){
+  //Retrieve all values of tree
+  var treeValues = this._getAllValues();
+  //clear this of current properties
   this.left = undefined;
   this.right = undefined;
-  this.value = treeValues[Math.floor(treeValues.length/2)];
+
+  this.value = treeValues.splice(Math.round(treeValues.length/2), 1);
   var ornament;
   while(treeValues.length>0){
     ornament = treeValues.splice(Math.round(treeValues.length/4), 1);
     this.insert(ornament);
     if(treeValues.length>0){
-      ornament = treeValues.splice(Math.round(treeValues.length*3/4), 1);
+      ornament = treeValues.splice(Math.round(treeValues.length*(3/4)), 1);
       this.insert(ornament);
     }
   }
-}
+};
 
 
 /*
